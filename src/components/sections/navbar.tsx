@@ -1,112 +1,155 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { id: "about", label: "About" },
+  { id: "projects", label: "Projects" },
+  { id: "tech", label: "Stack" },
+  { id: "blog", label: "Blog" },
+  { id: "contact", label: "Contact" },
 ];
 
 export function Navbar() {
-  const pathname = usePathname();
+  const [activeSection, setActiveSection] = useState("hero");
+  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isScrollingRef = useRef(false);
+
+  const scrollToSection = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    isScrollingRef.current = true;
+    const top = el.getBoundingClientRect().top + window.scrollY - 64;
+    window.scrollTo({ top, left: 0, behavior: "smooth" });
+    setTimeout(() => {
+      isScrollingRef.current = false;
+    }, 800);
+  }, []);
+
+  useEffect(() => {
+    const sections = ["hero", ...links.map((l) => l.id)];
+    const observers: IntersectionObserver[] = [];
+
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !isScrollingRef.current) setActiveSection(id);
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    }
+
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      observers.forEach((o) => o.disconnect());
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-border/50 bg-bg/80 backdrop-blur-xl">
+    <nav
+      aria-label="Main navigation"
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        scrolled
+          ? "bg-[var(--color-brand-bg)]/70 backdrop-blur-xl border-b border-white/5"
+          : "bg-transparent"
+      )}
+    >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/10 transition-colors group-hover:bg-accent/20">
-            <Shield className="h-5 w-5 text-accent" />
-          </div>
-          <span className="text-lg font-bold tracking-tight">
-            ruben<span className="text-accent">.</span>dev
-          </span>
-        </Link>
+        <button
+          onClick={() => scrollToSection("hero")}
+          className="text-sm font-semibold tracking-tight"
+        >
+          ruben<span className="text-[var(--color-brand-amber)]">.dev</span>
+        </button>
 
-        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-1">
           {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
+            <button
+              key={link.id}
+              onClick={() => scrollToSection(link.id)}
+              aria-current={activeSection === link.id ? "true" : undefined}
               className={cn(
-                "relative px-4 py-2 text-sm font-medium transition-colors rounded-lg",
-                pathname === link.href
-                  ? "text-text"
-                  : "text-text-muted hover:text-text hover:bg-surface/50"
+                "relative px-3 py-1.5 text-sm transition-colors",
+                activeSection === link.id
+                  ? "text-[var(--color-brand-text)]"
+                  : "text-[var(--color-brand-text-muted)] hover:text-[var(--color-brand-text)]"
               )}
             >
-              {pathname === link.href && (
-                <motion.div
-                  layoutId="nav-indicator"
-                  className="absolute inset-0 rounded-lg bg-surface border border-border/50"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
-                />
-              )}
-              <span className="relative z-10">{link.label}</span>
-            </Link>
+              {link.label}
+              <span
+                className={cn(
+                  "absolute inset-x-1 -bottom-px h-px transition-all duration-300",
+                  activeSection === link.id
+                    ? "bg-[var(--color-brand-amber)] opacity-100"
+                    : "bg-transparent opacity-0"
+                )}
+              />
+            </button>
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/contact"
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/20"
-          >
-            Hire Me
-          </Link>
-        </div>
+        <button
+          onClick={() => scrollToSection("contact")}
+          className="hidden md:inline-flex text-sm font-medium px-4 py-2 rounded-lg glass glass-hover transition-all text-[var(--color-brand-amber)]"
+        >
+          Let&apos;s Talk
+        </button>
 
-        {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 rounded-lg hover:bg-surface"
+          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
+          className="md:hidden p-2"
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border/50 bg-bg/95 backdrop-blur-xl"
+            id="mobile-menu"
+            role="navigation"
+            aria-label="Mobile navigation"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15 }}
+            className="md:hidden border-t border-white/5 bg-[var(--color-brand-bg)]/95 backdrop-blur-xl"
           >
-            <div className="flex flex-col px-6 py-4 gap-1">
+            <div className="px-6 py-4 space-y-1">
               {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
+                <button
+                  key={link.id}
+                  onClick={() => {
+                    scrollToSection(link.id);
+                    setMobileOpen(false);
+                  }}
+                  aria-current={activeSection === link.id ? "true" : undefined}
                   className={cn(
-                    "px-4 py-3 rounded-lg text-sm font-medium transition-colors",
-                    pathname === link.href
-                      ? "bg-surface text-text"
-                      : "text-text-muted hover:text-text hover:bg-surface/50"
+                    "block w-full text-left px-3 py-2.5 text-sm rounded-lg transition-colors",
+                    activeSection === link.id
+                      ? "text-[var(--color-brand-amber)] bg-white/5"
+                      : "text-[var(--color-brand-text-muted)]"
                   )}
                 >
                   {link.label}
-                </Link>
+                </button>
               ))}
-              <Link
-                href="/contact"
-                onClick={() => setMobileOpen(false)}
-                className="mt-2 rounded-lg bg-accent px-4 py-3 text-center text-sm font-semibold text-white"
-              >
-                Hire Me
-              </Link>
             </div>
           </motion.div>
         )}

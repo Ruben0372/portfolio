@@ -1,0 +1,46 @@
+---
+title: "Why mTLS Beats API Keys for Service-to-Service Auth"
+date: "2026-03-28"
+excerpt: "API keys are shared secrets with no identity. mTLS gives you mutual authentication, certificate-based identity, and zero shared secrets."
+tags: ["security", "mTLS", "architecture"]
+published: true
+---
+
+Most teams reach for API keys when they need services to authenticate with each other. It's familiar, it's easy, and every HTTP client supports it. But API keys are fundamentally a shared secret — and shared secrets are a class of vulnerability.
+
+## The Problem with API Keys
+
+An API key is a string that proves you have the string. That's it. There's no identity behind it, no proof of origin, no cryptographic binding to a specific service. When you put an API key in an `Authorization` header, you're saying "I possess this secret" — not "I am this service."
+
+This creates several issues:
+
+- **Key rotation is painful.** Every service that uses the key needs coordinated updates.
+- **Logging exposes secrets.** If your reverse proxy logs headers, the key is in plain text.
+- **Lateral movement is trivial.** An attacker who steals one key gets full access to whatever that key protects.
+- **No mutual authentication.** The server verifies the client, but the client has no proof the server is legitimate.
+
+## How mTLS Solves This
+
+Mutual TLS flips the model. Instead of shared secrets, each service gets its own X.509 certificate issued by a Certificate Authority you control. During the TLS handshake, both sides present their certificates and prove they hold the corresponding private keys.
+
+```
+Client                          Server
+  │                               │
+  ├── ClientHello ───────────────>│
+  │<────────── ServerHello + Cert │
+  │<── CertificateRequest ───────│
+  ├── Client Cert + Verify ─────>│
+  │<────────── Finished ─────────│
+  │                               │
+  │   Both sides verified. ✓      │
+```
+
+The private key never leaves the service. The certificate carries identity (CN, SANs). The CA chain provides trust. And the TLS handshake proves possession of the key without ever transmitting it.
+
+## When to Use What
+
+mTLS makes sense for **service-to-service** communication within your infrastructure. It's what I used in Atlax for agent-to-relay authentication — every customer node presents a certificate signed by the relay's CA, and the relay verifies the certificate chain before accepting the connection.
+
+API keys still have a place for **third-party integrations** where you can't manage a shared CA, or for **low-security internal tools** where the operational overhead of certificate management isn't justified.
+
+The key insight: choose your authentication mechanism based on your threat model, not your comfort level.

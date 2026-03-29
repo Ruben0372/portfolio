@@ -1,0 +1,45 @@
+---
+title: "Atlax"
+tagline: "Custom Reverse TLS Tunnel with TCP Stream Multiplexing"
+category: "security"
+tech: ["Go 1.25", "mTLS", "TCP Multiplexing", "Docker", "Custom Wire Protocol"]
+featured: true
+github: "https://github.com/Ruben0372/atlax"
+---
+
+A production-grade reverse TLS tunnel built in Go, designed to bypass carrier-grade NAT (CGNAT) by having customer nodes dial out to a relay with a public IP.
+
+## The Problem
+
+When you self-host behind a residential ISP, CGNAT prevents inbound connections. Port forwarding doesn't work. Dynamic DNS doesn't help. You need a way for the outside world to reach services running behind NAT — without exposing those services directly to the internet.
+
+## The Architecture
+
+```
+RELAY (VPS)
+├── TLS Listener (agent connections)
+├── Agent Registry (node mapping)
+├── Client Listener (TCP ports)
+└── Mux Router
+        │
+   TLS Tunnel (outbound)
+        │
+CUSTOMER NODE
+├── Tunnel Agent (dials relay)
+├── Stream Demux (route by ID)
+└── Local Services (Samba, HTTP)
+```
+
+The customer node initiates an outbound TLS connection to the relay. This connection stays open as a persistent tunnel. When a client connects to the relay's public port, the relay multiplexes the client's TCP stream through the existing tunnel to the customer node, which demultiplexes and forwards to the local service.
+
+## Key Design Decisions
+
+**mTLS over API keys.** Every agent connection is authenticated via mutual TLS. The relay's CA issues certificates to customer nodes, and the certificate's Common Name becomes the agent's identity in the registry. No shared secrets, no API keys to rotate.
+
+**Custom wire protocol over HTTP/2.** HTTP/2 multiplexing adds overhead we don't need — framing, header compression, flow control designed for request/response. Our wire protocol is simpler: a 4-byte stream ID, 4-byte length, and raw payload. This gives us multiplexing with minimal overhead for raw TCP forwarding.
+
+**In-memory agent registry.** For the current scale (single relay, dozens of agents), a map behind a mutex is simpler and faster than a database. The registry tracks agent identity, connection state, and health check timestamps. If an agent disconnects, the registry cleans up and the agent reconnects with exponential backoff.
+
+## What I Learned
+
+Building a tunneling system forces you to think about every layer of the networking stack. TLS certificate management, TCP connection lifecycle, stream multiplexing, backpressure, graceful shutdown — each one is a rabbit hole. The experience fundamentally changed how I think about network security and protocol design.

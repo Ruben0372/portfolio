@@ -1,7 +1,11 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { techStack } from "@/data/projects";
+import { BGPattern } from "@/components/ui/bg-pattern";
+import { GridGlowText } from "@/components/ui/grid-glow";
+import {
+  SectionReveal,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/ui/section-reveal";
 
 const categoryLabels: Record<string, string> = {
   languages: "Languages",
@@ -9,55 +13,46 @@ const categoryLabels: Record<string, string> = {
   backend: "Backend",
   databases: "Databases",
   security: "Security",
-  devops: "DevOps & Cloud",
+  devops: "DevOps",
   tools: "Tools",
 };
 
 export function TechStack() {
   return (
-    <section className="relative py-28 bg-surface/20">
+    <section id="tech" className="section-anchor min-h-screen py-20 lg:py-28 relative border-t border-white/5">
+      <BGPattern variant="grid" mask="fade-edges" size={24} fill="rgba(255,255,255,0.025)" />
       <div className="mx-auto max-w-6xl px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="text-xs font-semibold text-yellow tracking-widest uppercase">
+        <SectionReveal>
+          <GridGlowText as="span" className="text-xs font-mono tracking-widest uppercase text-[var(--color-brand-amber)] block">
+            Arsenal
+          </GridGlowText>
+          <GridGlowText as="h2" className="mt-3 font-heading text-3xl sm:text-4xl font-bold tracking-tight text-[var(--color-brand-text-heading)]">
             Tech Stack
-          </span>
-          <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
-            The tools I{" "}
-            <span className="text-text-muted">ship with.</span>
-          </h2>
-        </motion.div>
+          </GridGlowText>
+        </SectionReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {Object.entries(techStack).map(([category, items], i) => (
-            <motion.div
-              key={category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="rounded-xl border border-border/50 bg-surface/50 p-5"
-            >
-              <h3 className="text-xs font-semibold text-accent uppercase tracking-wider mb-4">
-                {categoryLabels[category]}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {items.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-lg bg-surface-2 border border-border/40 px-3 py-1.5 text-xs font-medium text-text-muted transition-colors hover:text-text hover:border-accent/30"
-                  >
-                    {item}
-                  </span>
-                ))}
+        <StaggerContainer stagger={0.06} delay={0.1} className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {Object.entries(techStack).map(([category, items]) => (
+            <StaggerItem key={category}>
+              <div>
+                <GridGlowText as="h3" className="text-xs font-mono uppercase tracking-widest text-[var(--color-brand-amber)] mb-3">
+                  {categoryLabels[category] ?? category}
+                </GridGlowText>
+                <div className="flex flex-wrap gap-2">
+                  {items.map((item) => (
+                    <span
+                      key={item}
+                      className="text-xs font-mono px-2.5 py-1.5 rounded-lg glass glass-hover transition-all cursor-default text-[var(--color-brand-text-muted)] hover:text-[var(--color-brand-text)]"
+                      style={{ textShadow: "0 0 30px rgba(255,255,255,0.05)" }}
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

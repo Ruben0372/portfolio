@@ -1,0 +1,62 @@
+---
+title: "Building a Reverse TLS Tunnel from Scratch in Go"
+date: "2026-03-25"
+excerpt: "How I built Atlax: a production-grade reverse tunnel with TCP multiplexing, mTLS, and a custom wire protocol to bypass CGNAT."
+tags: ["go", "networking", "security"]
+published: true
+---
+
+Behind most home networks and many cloud environments sits a NAT gateway that blocks inbound connections. If you want to expose a local service to the internet — for webhooks, remote access, or edge compute — you need a tunnel. I built Atlax to solve this problem with security as a first-class constraint.
+
+## The CGNAT Problem
+
+Carrier-grade NAT (CGNAT) means your ISP assigns a private IP to your router, then NATs it again at the carrier level. You don't get a public IP at all. Port forwarding won't help because you don't control the outer NAT. This is increasingly common, and it's the reason tools like ngrok, Cloudflare Tunnel, and Tailscale exist.
+
+But I wanted something I fully controlled — no third-party relay, no SaaS dependency, no opaque binary phoning home to someone else's infrastructure.
+
+## Architecture
+
+Atlax uses a relay-agent model:
+
+```
+Internet ──> Relay (public VPS) <── persistent TLS ── Agent (behind NAT)
+                                                        │
+                                                     Local service
+```
+
+The agent initiates an outbound TLS connection to the relay and keeps it alive. When traffic arrives at the relay, it multiplexes the request over the existing connection to the agent, which proxies it to the local service.
+
+## TCP Multiplexing
+
+A single TLS connection carries multiple logical streams. Each stream gets a unique ID, and frames are tagged with that ID so the other side can demux them. This avoids the overhead of establishing a new TLS handshake for every request.
+
+The wire protocol is straightforward:
+
+```
+┌──────────┬──────────┬──────────────┐
+│ StreamID │ Length   │ Payload      │
+│ (4 bytes)│ (4 bytes)│ (N bytes)    │
+└──────────┴──────────┴──────────────┘
+```
+
+Stream 0 is reserved for control messages (heartbeats, stream open/close). Everything else is data.
+
+## mTLS for Agent Authentication
+
+Every agent has an X.509 certificate signed by the relay's CA. During the TLS handshake, the relay verifies the agent's certificate chain and extracts the Common Name to identify which tenant the connection belongs to.
+
+This means there are zero shared secrets. No API keys, no tokens, no passwords. The agent proves its identity cryptographically on every connection, and the relay proves its identity back. If an agent's certificate is compromised, you revoke just that certificate without rotating anything else.
+
+## Lessons Learned
+
+**Go's `net` package is excellent.** The standard library gives you everything you need for TCP servers, TLS configuration, and connection management. I didn't need a single networking dependency.
+
+**Multiplexing is harder than it looks.** Flow control, backpressure, and graceful stream teardown all need careful handling. A stream that blocks reads will eventually block the entire connection if you don't manage buffers correctly.
+
+**Certificate management is the real cost of mTLS.** The cryptography is free — Go handles it natively. But building a CA, issuing certificates, handling renewals, and distributing trust anchors is operational work that you need to automate from day one.
+
+**Heartbeats are non-negotiable.** NAT mappings expire. TCP keepalives are too infrequent and not always forwarded by middleboxes. Application-layer heartbeats every 30 seconds keep the connection alive and detect failures within a minute.
+
+## What's Next
+
+Atlax is functional but not feature-complete. The roadmap includes UDP tunneling, automatic certificate renewal via ACME, and a dashboard for monitoring active agents and their streams. The goal is a self-hosted alternative to commercial tunnel services that doesn't compromise on security.
