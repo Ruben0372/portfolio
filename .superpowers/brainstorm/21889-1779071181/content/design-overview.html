@@ -1,0 +1,164 @@
+<h2>Portfolio v2.1 — WebGL Pivot Design</h2>
+<p class="subtitle">Full 3D immersive portfolio with reactive supernova, monochrome particle topology, and scroll-driven camera choreography</p>
+
+<!-- Scene Overview Diagram -->
+<div class="section">
+  <h3>Scene Architecture</h3>
+  <div class="mockup">
+    <div class="mockup-header">3D Scene Layout — Camera Path Through Topology</div>
+    <div class="mockup-body" style="background: #050508; padding: 30px; min-height: 350px; position: relative; overflow: hidden;">
+      <!-- Supernova center -->
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 30%, transparent 70%); filter: blur(8px);"></div>
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);"></div>
+
+      <!-- Node clusters as particle groups -->
+      <div style="position: absolute; top: 25%; left: 12%; text-align: center;">
+        <div style="display: flex; gap: 2px; justify-content: center; margin-bottom: 4px;">
+          <div style="width: 4px; height: 4px; border-radius: 50%; background: white; opacity: 0.6;"></div>
+          <div style="width: 3px; height: 3px; border-radius: 50%; background: white; opacity: 0.4;"></div>
+          <div style="width: 5px; height: 5px; border-radius: 50%; background: white; opacity: 0.5;"></div>
+        </div>
+        <span style="color: rgba(255,255,255,0.4); font-size: 9px; font-family: monospace;">CLIENT</span>
+      </div>
+
+      <div style="position: absolute; top: 35%; left: 28%; text-align: center;">
+        <div style="display: flex; gap: 2px; justify-content: center; margin-bottom: 4px;">
+          <div style="width: 4px; height: 4px; border-radius: 50%; background: white; opacity: 0.5;"></div>
+          <div style="width: 6px; height: 6px; border-radius: 50%; background: white; opacity: 0.6;"></div>
+          <div style="width: 3px; height: 3px; border-radius: 50%; background: white; opacity: 0.3;"></div>
+        </div>
+        <span style="color: rgba(255,255,255,0.4); font-size: 9px; font-family: monospace;">CADDY</span>
+      </div>
+
+      <div style="position: absolute; top: 30%; left: 46%; text-align: center;">
+        <div style="display: flex; gap: 2px; justify-content: center; margin-bottom: 4px;">
+          <div style="width: 6px; height: 6px; border-radius: 50%; background: white; opacity: 0.7;"></div>
+          <div style="width: 4px; height: 4px; border-radius: 50%; background: white; opacity: 0.5;"></div>
+          <div style="width: 5px; height: 5px; border-radius: 50%; background: white; opacity: 0.4;"></div>
+          <div style="width: 3px; height: 3px; border-radius: 50%; background: white; opacity: 0.3;"></div>
+        </div>
+        <span style="color: rgba(255,255,255,0.4); font-size: 9px; font-family: monospace;">RELAY</span>
+      </div>
+
+      <div style="position: absolute; top: 55%; left: 62%; text-align: center;">
+        <div style="display: flex; gap: 2px; justify-content: center; margin-bottom: 4px;">
+          <div style="width: 5px; height: 5px; border-radius: 50%; background: white; opacity: 0.5;"></div>
+          <div style="width: 4px; height: 4px; border-radius: 50%; background: white; opacity: 0.6;"></div>
+        </div>
+        <span style="color: rgba(255,255,255,0.4); font-size: 9px; font-family: monospace;">mTLS TUNNEL</span>
+      </div>
+
+      <div style="position: absolute; top: 25%; left: 76%; text-align: center;">
+        <div style="display: flex; gap: 2px; justify-content: center; margin-bottom: 4px;">
+          <div style="width: 5px; height: 5px; border-radius: 50%; background: white; opacity: 0.6;"></div>
+          <div style="width: 4px; height: 4px; border-radius: 50%; background: white; opacity: 0.4;"></div>
+          <div style="width: 3px; height: 3px; border-radius: 50%; background: white; opacity: 0.5;"></div>
+        </div>
+        <span style="color: rgba(255,255,255,0.4); font-size: 9px; font-family: monospace;">AGENT</span>
+      </div>
+
+      <div style="position: absolute; top: 60%; left: 88%; text-align: center;">
+        <div style="display: flex; gap: 2px; justify-content: center; margin-bottom: 4px;">
+          <div style="width: 4px; height: 4px; border-radius: 50%; background: white; opacity: 0.5;"></div>
+          <div style="width: 3px; height: 3px; border-radius: 50%; background: white; opacity: 0.3;"></div>
+        </div>
+        <span style="color: rgba(255,255,255,0.4); font-size: 9px; font-family: monospace;">SERVICE</span>
+      </div>
+
+      <!-- Camera path annotation -->
+      <div style="position: absolute; bottom: 15px; left: 0; right: 0; text-align: center;">
+        <span style="color: rgba(255,255,255,0.2); font-size: 10px; font-family: monospace; letter-spacing: 2px;">← SCROLL: ZOOM IN → EXPLORE ROOM → ZOOM OUT → NEXT NODE →</span>
+      </div>
+
+      <!-- Faint connecting lines -->
+      <svg style="position: absolute; inset: 0; width: 100%; height: 100%;" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <line x1="15" y1="28" x2="30" y2="38" stroke="white" stroke-width="0.1" opacity="0.15"/>
+        <line x1="32" y1="38" x2="48" y2="33" stroke="white" stroke-width="0.1" opacity="0.15"/>
+        <line x1="50" y1="35" x2="64" y2="58" stroke="white" stroke-width="0.1" opacity="0.15"/>
+        <line x1="65" y1="58" x2="78" y2="28" stroke="white" stroke-width="0.1" opacity="0.15"/>
+        <line x1="79" y1="30" x2="90" y2="62" stroke="white" stroke-width="0.1" opacity="0.15"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Scroll Journey -->
+<div class="section">
+  <h3>Scroll Journey (6 Rooms)</h3>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Room 0</div>
+      <h3 style="margin: 4px 0 8px; font-size: 14px;">Hero / Supernova</h3>
+      <p style="font-size: 12px; opacity: 0.6;">Camera inside the supernova. Title + subtitle on glass HUD. Scroll begins to pull camera outward, revealing the particle network.</p>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Room 1</div>
+      <h3 style="margin: 4px 0 8px; font-size: 14px;">Overview / About</h3>
+      <p style="font-size: 12px; opacity: 0.6;">Full topology visible. About text on glass panel. Camera slowly orbits. Supernova pulses gently in center.</p>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Room 2</div>
+      <h3 style="margin: 4px 0 8px; font-size: 14px;">Topology Deep Dive</h3>
+      <p style="font-size: 12px; opacity: 0.6;">Scroll zooms into each node cluster sequentially. Glass panels show node details (publicCopy, claims). Supernova intensifies behind active node.</p>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Room 3</div>
+      <h3 style="margin: 4px 0 8px; font-size: 14px;">Projects Showcase</h3>
+      <p style="font-size: 12px; opacity: 0.6;">Camera pulls back to overview. Project cards appear as floating glass panels. Click triggers portal transition to HTML project page.</p>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Room 4</div>
+      <h3 style="margin: 4px 0 8px; font-size: 14px;">Tech Stack</h3>
+      <p style="font-size: 12px; opacity: 0.6;">Camera orbits to a different angle. Tech icons/labels orbit the topology as satellites. Glass panel with stack details.</p>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Room 5</div>
+      <h3 style="margin: 4px 0 8px; font-size: 14px;">Contact / End</h3>
+      <p style="font-size: 12px; opacity: 0.6;">Camera zooms back into supernova core. Contact info on glass HUD. Full circle — you end where you began.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Tech Stack -->
+<div class="section">
+  <h3>Technology Stack</h3>
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">3D Engine</div>
+      <p style="font-size: 13px;"><strong>React Three Fiber (R3F)</strong> + Three.js</p>
+      <p style="font-size: 12px; opacity: 0.6;">@react-three/fiber, @react-three/drei, @react-three/postprocessing</p>
+    </div>
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Scroll Control</div>
+      <p style="font-size: 13px;"><strong>@react-three/drei ScrollControls</strong></p>
+      <p style="font-size: 12px; opacity: 0.6;">Maps scroll position to camera path + room transitions</p>
+    </div>
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Particles</div>
+      <p style="font-size: 13px;"><strong>Custom instanced BufferGeometry</strong></p>
+      <p style="font-size: 12px; opacity: 0.6;">GPU-driven particle system for nodes, edges, supernova, and dust</p>
+    </div>
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Post-processing</div>
+      <p style="font-size: 13px;"><strong>Bloom + Vignette + Noise</strong></p>
+      <p style="font-size: 12px; opacity: 0.6;">UnrealBloomPass for glow, subtle film grain for texture</p>
+    </div>
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Framework</div>
+      <p style="font-size: 13px;"><strong>Next.js 15</strong> (existing)</p>
+      <p style="font-size: 12px; opacity: 0.6;">Keep existing routing, MDX pipeline, blog/project pages</p>
+    </div>
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+      <div class="label">Content Overlays</div>
+      <p style="font-size: 13px;"><strong>drei Html + CSS backdrop-filter</strong></p>
+      <p style="font-size: 12px; opacity: 0.6;">Glass HUD panels anchored to 3D positions, fade on scroll</p>
+    </div>
+  </div>
+</div>

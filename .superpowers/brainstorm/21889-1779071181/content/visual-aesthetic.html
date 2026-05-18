@@ -1,0 +1,110 @@
+<h2>Visual Aesthetic Direction</h2>
+<p class="subtitle">What should the 3D world feel like? Pick the mood that fits your identity as a systems/security engineer.</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #0a0a0f 0%, #0d1117 40%, #161b22 100%); height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+      <!-- Dark void with glowing wireframes -->
+      <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(0,255,136,0.05) 0%, transparent 50%), radial-gradient(circle at 70% 40%, rgba(0,150,255,0.05) 0%, transparent 50%);"></div>
+      <svg viewBox="0 0 300 150" style="width: 80%; opacity: 0.8;">
+        <!-- Wireframe nodes -->
+        <circle cx="50" cy="75" r="15" fill="none" stroke="#00ff88" stroke-width="0.5" opacity="0.6"/>
+        <circle cx="150" cy="50" r="20" fill="none" stroke="#0096ff" stroke-width="0.5" opacity="0.6"/>
+        <circle cx="250" cy="75" r="12" fill="none" stroke="#ff6b00" stroke-width="0.5" opacity="0.6"/>
+        <!-- Glowing edges -->
+        <line x1="65" y1="75" x2="130" y2="55" stroke="#00ff88" stroke-width="0.3" opacity="0.4"/>
+        <line x1="170" y1="55" x2="238" y2="75" stroke="#0096ff" stroke-width="0.3" opacity="0.4"/>
+        <!-- Subtle grid -->
+        <line x1="0" y1="120" x2="300" y2="120" stroke="#ffffff" stroke-width="0.1" opacity="0.1"/>
+        <line x1="0" y1="30" x2="300" y2="30" stroke="#ffffff" stroke-width="0.1" opacity="0.1"/>
+        <!-- Glow points -->
+        <circle cx="50" cy="75" r="3" fill="#00ff88" opacity="0.3"/>
+        <circle cx="150" cy="50" r="3" fill="#0096ff" opacity="0.3"/>
+        <circle cx="250" cy="75" r="3" fill="#ff6b00" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>A. Dark Void + Neon Wireframe</h3>
+      <p>Deep black space. Nodes are glowing wireframe geometries (icospheres, octahedra). Edges are thin neon lines with particle flow. Minimal, elegant, hacker aesthetic. Think: network monitoring dashboard in a sci-fi film.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Strong systems engineer identity</li><li>Performant (fewer polygons)</li><li>High contrast, readable overlays</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Can feel cold/generic if not careful</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #0a0e1a 0%, #0f1629 40%, #1a1f3a 100%); height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+      <!-- Volumetric fog with solid shapes -->
+      <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(60,80,180,0.15) 0%, transparent 60%), radial-gradient(circle at 20% 30%, rgba(100,60,200,0.08) 0%, transparent 40%);"></div>
+      <svg viewBox="0 0 300 150" style="width: 80%; opacity: 0.9;">
+        <!-- Solid geometric shapes with depth -->
+        <rect x="30" y="50" width="40" height="40" rx="4" fill="#1e2d5a" stroke="#3b5998" stroke-width="0.5" opacity="0.8"/>
+        <polygon points="150,30 175,70 125,70" fill="#2a1f4a" stroke="#7c5cbf" stroke-width="0.5" opacity="0.8"/>
+        <circle cx="250" cy="65" r="22" fill="#1a3040" stroke="#4a9ead" stroke-width="0.5" opacity="0.8"/>
+        <!-- Volumetric beams -->
+        <line x1="70" y1="70" x2="125" y2="55" stroke="url(#beam1)" stroke-width="2" opacity="0.3"/>
+        <line x1="175" y1="55" x2="228" y2="65" stroke="url(#beam2)" stroke-width="2" opacity="0.3"/>
+        <defs>
+          <linearGradient id="beam1"><stop offset="0%" stop-color="#3b5998" stop-opacity="0.6"/><stop offset="100%" stop-color="#7c5cbf" stop-opacity="0.1"/></linearGradient>
+          <linearGradient id="beam2"><stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.6"/><stop offset="100%" stop-color="#4a9ead" stop-opacity="0.1"/></linearGradient>
+        </defs>
+        <!-- Ambient particles -->
+        <circle cx="90" cy="40" r="1" fill="#7c5cbf" opacity="0.3"/>
+        <circle cx="200" cy="90" r="1" fill="#4a9ead" opacity="0.2"/>
+        <circle cx="140" cy="110" r="0.8" fill="#3b5998" opacity="0.25"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>B. Volumetric Depth + Solid Geometry</h3>
+      <p>Deep blue-purple atmosphere with fog and bloom. Nodes are solid 3D shapes with subtle materials. Edges are volumetric beams. More cinematic, more atmosphere. Think: an observatory or control room floating in space.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>More depth and atmosphere</li><li>Feels premium / cinematic</li><li>Closer to activetheory.net feel</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Heavier on GPU (fog, bloom, post-processing)</li><li>Harder to get right</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #050508 0%, #0a0a12 40%, #12121f 100%); height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+      <!-- Particle cloud -->
+      <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 50%);"></div>
+      <svg viewBox="0 0 300 150" style="width: 80%;">
+        <!-- Dense particle field -->
+        <circle cx="45" cy="70" r="0.8" fill="#ffffff" opacity="0.5"/>
+        <circle cx="48" cy="65" r="0.5" fill="#ffffff" opacity="0.3"/>
+        <circle cx="52" cy="73" r="0.6" fill="#ffffff" opacity="0.4"/>
+        <circle cx="42" cy="68" r="0.4" fill="#ffffff" opacity="0.2"/>
+        <circle cx="55" cy="78" r="0.7" fill="#ffffff" opacity="0.35"/>
+        <circle cx="38" cy="75" r="0.5" fill="#ffffff" opacity="0.25"/>
+        <!-- Node cluster 2 -->
+        <circle cx="148" cy="50" r="0.8" fill="#ffffff" opacity="0.5"/>
+        <circle cx="152" cy="45" r="0.6" fill="#ffffff" opacity="0.35"/>
+        <circle cx="145" cy="55" r="0.5" fill="#ffffff" opacity="0.3"/>
+        <circle cx="155" cy="52" r="0.7" fill="#ffffff" opacity="0.4"/>
+        <circle cx="143" cy="48" r="0.4" fill="#ffffff" opacity="0.2"/>
+        <!-- Node cluster 3 -->
+        <circle cx="248" cy="68" r="0.8" fill="#ffffff" opacity="0.5"/>
+        <circle cx="252" cy="72" r="0.6" fill="#ffffff" opacity="0.3"/>
+        <circle cx="245" cy="64" r="0.5" fill="#ffffff" opacity="0.35"/>
+        <circle cx="255" cy="66" r="0.7" fill="#ffffff" opacity="0.4"/>
+        <!-- Thin connecting threads -->
+        <line x1="55" y1="72" x2="143" y2="52" stroke="#ffffff" stroke-width="0.15" opacity="0.15"/>
+        <line x1="155" y1="52" x2="245" y2="68" stroke="#ffffff" stroke-width="0.15" opacity="0.15"/>
+        <!-- Scattered ambient dust -->
+        <circle cx="100" cy="30" r="0.3" fill="#ffffff" opacity="0.1"/>
+        <circle cx="200" cy="120" r="0.3" fill="#ffffff" opacity="0.08"/>
+        <circle cx="80" cy="110" r="0.3" fill="#ffffff" opacity="0.12"/>
+        <circle cx="220" cy="35" r="0.3" fill="#ffffff" opacity="0.1"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>C. Monochrome Particle Cloud</h3>
+      <p>Near-black void. Nodes are clusters of white particles that swarm and breathe. Edges are faint particle streams. Almost no color — identity comes from motion and density. Think: data visualized as star systems.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Extremely elegant and distinctive</li><li>Motion carries the experience</li><li>Unique — doesn't look like typical 3D portfolio</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Risky — needs great motion design to not feel empty</li><li>Less immediately "impressive" in screenshots</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

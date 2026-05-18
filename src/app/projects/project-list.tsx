@@ -1,22 +1,7 @@
-"use client";
+'use client';
 
-import { motion } from "motion/react";
-import { Github, ExternalLink } from "lucide-react";
-import type { Project } from "@/data/projects";
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.05 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] as const },
-  },
-};
+import { Github, ExternalLink } from 'lucide-react';
+import type { Project } from '@/data/projects';
 
 interface ProjectListProps {
   projects: Project[];
@@ -25,23 +10,17 @@ interface ProjectListProps {
 
 export function ProjectList({ projects, categoryColors }: ProjectListProps) {
   return (
-    <motion.div
-      className="space-y-8"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className="space-y-8">
       {projects.map((project) => (
-        <motion.div
+        <div
           key={project.slug}
           id={project.slug}
-          variants={itemVariants}
           className="rounded-2xl border border-[var(--color-brand-border)]/50 bg-[var(--color-brand-surface)]/50 p-8 scroll-mt-24 hover:border-[var(--color-brand-amber)]/20 transition-all"
         >
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span
               className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${
-                categoryColors[project.category] ?? ""
+                categoryColors[project.category] ?? ''
               }`}
             >
               {project.category}
@@ -123,8 +102,8 @@ export function ProjectList({ projects, categoryColors }: ProjectListProps) {
               </a>
             )}
           </div>
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   );
 }
