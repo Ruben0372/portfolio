@@ -3,39 +3,41 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useScrollStore } from '@/lib/scroll-store';
-import { smoothstep } from '@/lib/three-utils';
+import { useStore, roomKeyframes } from '@/lib/scroll-store';
 
-const PARTICLE_COUNT = 200;
+const PARTICLE_COUNT = 150;
 
 const vertexShader = `
   uniform float uTime;
   uniform float uIntensity;
-  attribute float aRandom;
+  attribute float aBand;
+  attribute float aPhase;
   attribute float aSpeed;
   varying float vAlpha;
 
   void main() {
-    float t = uTime * aSpeed;
-    float radius = 1.5 + sin(t + aRandom * 6.28) * 0.5 * uIntensity;
-    float theta = position.x;
-    float phi = position.y;
-    vec3 pos = vec3(
-      radius * sin(theta) * cos(phi),
-      radius * sin(theta) * sin(phi),
-      radius * cos(theta)
-    );
-    pos += vec3(
-      sin(t * 1.3 + aRandom * 3.14) * 0.3,
-      cos(t * 0.7 + aRandom * 5.0) * 0.3,
-      sin(t * 1.1 + aRandom * 2.0) * 0.3
-    ) * uIntensity;
+    float t = uTime * 0.15 * aSpeed;
 
-    vAlpha = (0.1 + 0.4 * uIntensity) * (0.5 + 0.5 * sin(t + aRandom * 6.28));
+    // Breathing radius pulse (~4s cycle)
+    float breath = 1.0 + sin(uTime * 0.4) * 0.15 * uIntensity;
+
+    // Orbital bands — particles stay in coherent streams
+    float bandAngle = aBand * 6.2832 + t * 0.3;
+    float elevation = aPhase * 3.1416 - 1.5708;
+    float radius = (1.2 + sin(aPhase * 3.0 + t * 0.2) * 0.4) * breath;
+
+    vec3 pos = vec3(
+      radius * cos(bandAngle) * cos(elevation),
+      radius * sin(elevation) + sin(t * 0.1 + aPhase * 2.0) * 0.1,
+      radius * sin(bandAngle) * cos(elevation)
+    );
+
+    vAlpha = (0.08 + 0.25 * uIntensity) * (0.6 + 0.4 * sin(t * 0.5 + aPhase * 6.28));
+
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mvPosition;
     float dist = max(-mvPosition.z, 2.0);
-    gl_PointSize = (1.0 + 1.5 * uIntensity) * (20.0 / dist);
+    gl_PointSize = (1.5 + 1.0 * uIntensity) * (25.0 / dist);
   }
 `;
 
@@ -51,54 +53,49 @@ const fragmentShader = `
 `;
 
 export function Supernova() {
-  const meshRef = useRef<THREE.Points>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
 
   const geometry = useMemo(() => {
     const positions = new Float32Array(PARTICLE_COUNT * 3);
-    const randoms = new Float32Array(PARTICLE_COUNT);
+    const bands = new Float32Array(PARTICLE_COUNT);
+    const phases = new Float32Array(PARTICLE_COUNT);
     const speeds = new Float32Array(PARTICLE_COUNT);
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      positions[i * 3]     = Math.random() * Math.PI * 2;
-      positions[i * 3 + 1] = Math.random() * Math.PI * 2;
+      positions[i * 3] = 0;
+      positions[i * 3 + 1] = 0;
       positions[i * 3 + 2] = 0;
-      randoms[i] = Math.random();
-      speeds[i] = 0.3 + Math.random() * 0.7;
+      bands[i] = Math.random();  // Which orbital band
+      phases[i] = Math.random(); // Position within band
+      speeds[i] = 0.6 + Math.random() * 0.8;
     }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1));
+    geo.setAttribute('aBand', new THREE.BufferAttribute(bands, 1));
+    geo.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
     geo.setAttribute('aSpeed', new THREE.BufferAttribute(speeds, 1));
     return geo;
   }, []);
 
   useFrame(({ clock }) => {
     if (!materialRef.current) return;
-    const scroll = useScrollStore.getState().scroll;
+    const { roomIndex, insideCluster } = useStore.getState();
 
     let intensity = 0.3;
-    if (scroll < 0.15) {
-      intensity = 1.0 - smoothstep(0.05, 0.15, scroll) * 0.7;
-    } else if (scroll > 0.90) {
-      intensity = 0.3 + smoothstep(0.90, 1.0, scroll) * 0.7;
-    } else if (scroll >= 0.30 && scroll < 0.65) {
-      intensity = 0.5;
-    }
+    if (roomIndex === 0 || roomIndex === 5) intensity = 0.8;
+    if (roomIndex === 2) intensity = 0.4;
+    if (insideCluster) intensity = 0.15;
 
     materialRef.current.uniforms.uTime.value = clock.getElapsedTime();
     materialRef.current.uniforms.uIntensity.value = intensity;
   });
 
   return (
-    <points ref={meshRef} geometry={geometry} frustumCulled={false}>
+    <points geometry={geometry} frustumCulled={false}>
       <shaderMaterial
         ref={materialRef}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
-        uniforms={{
-          uTime: { value: 0 },
-          uIntensity: { value: 1.0 },
-        }}
+        uniforms={{ uTime: { value: 0 }, uIntensity: { value: 0.8 } }}
         transparent
         depthWrite={false}
         blending={THREE.AdditiveBlending}
