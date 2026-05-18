@@ -21,6 +21,24 @@
   --color-brand-success: #10b981;
   --color-brand-error: #ef4444;
 
+  /* Systems map — semantic network colors */
+  --color-map-relay: #3b82f6;
+  --color-map-agent: #10b981;
+  --color-map-tunnel: #8b5cf6;
+  --color-map-trust: rgba(139, 92, 246, 0.08);
+  --color-map-stream: #f59e0b;
+  --color-map-healthy: #10b981;
+  --color-map-warning: #f97316;
+  --color-map-caddy: #22d3ee;
+  --color-map-client: #a1a1aa;
+  --color-map-service: #facc15;
+
+  /* Motion timing */
+  --timing-micro: 150ms;
+  --timing-standard: 300ms;
+  --timing-emphasis: 500ms;
+  --timing-scroll: 800ms;
+
   /* Font stacks */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
@@ -195,4 +213,50 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 0;
+}
+
+/* Systems map utilities */
+.topology-node {
+  r: 24;
+  fill: var(--color-brand-surface);
+  stroke: var(--color-brand-border);
+  stroke-width: 1.5;
+  transition: stroke var(--timing-standard), fill var(--timing-standard);
+}
+
+.topology-node[data-active="true"] {
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.topology-line {
+  stroke: var(--color-brand-border);
+  stroke-width: 1.5;
+  fill: none;
+  transition: stroke var(--timing-standard), opacity var(--timing-standard);
+}
+
+.topology-line[data-active="true"] {
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.trust-zone {
+  fill: var(--color-map-trust);
+  stroke: var(--color-map-tunnel);
+  stroke-width: 1;
+  stroke-dasharray: 6 4;
+  rx: 12;
+}
+
+@keyframes stream-pulse {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+.stream-pulse {
+  animation: stream-pulse 2s ease-in-out infinite;
+  offset-rotate: 0deg;
 }
