@@ -3,7 +3,6 @@ import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { MotionProvider } from "@/components/providers/motion-provider";
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
@@ -73,9 +72,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <MotionProvider>
-          {children}
-        </MotionProvider>
+        {children}
       </body>
     </html>
   );
