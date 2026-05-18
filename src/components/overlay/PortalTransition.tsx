@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useScrollStore } from '@/lib/scroll-store';
+import { useStore } from '@/lib/scroll-store';
 
 export function PortalTransition() {
-  const portalTarget = useScrollStore((s) => s.portalTarget);
-  const clearPortal = useScrollStore((s) => s.clearPortal);
+  const portalTarget = useStore((s) => s.portalTarget);
+  const clearPortal = useStore((s) => s.clearPortal);
   const router = useRouter();
   const [flash, setFlash] = useState(false);
 
