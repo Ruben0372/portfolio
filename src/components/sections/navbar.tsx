@@ -2,13 +2,18 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const links = [
+type NavLink =
+  | { id: string; label: string; href?: undefined }
+  | { id: string; label: string; href: string };
+
+const links: NavLink[] = [
   { id: "about", label: "About" },
+  { id: "systems-map", label: "Systems Map", href: "/systems-map" },
   { id: "projects", label: "Projects" },
-  { id: "tech", label: "Stack" },
   { id: "blog", label: "Blog" },
   { id: "contact", label: "Contact" },
 ];
@@ -76,29 +81,39 @@ export function Navbar() {
         </button>
 
         <div className="hidden md:flex items-center gap-1">
-          {links.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => scrollToSection(link.id)}
-              aria-current={activeSection === link.id ? "true" : undefined}
-              className={cn(
-                "relative px-3 py-1.5 text-sm transition-colors",
-                activeSection === link.id
-                  ? "text-[var(--color-brand-text)]"
-                  : "text-[var(--color-brand-text-muted)] hover:text-[var(--color-brand-text)]"
-              )}
-            >
-              {link.label}
-              <span
+          {links.map((link) =>
+            link.href ? (
+              <Link
+                key={link.id}
+                href={link.href}
+                className="relative px-3 py-1.5 text-sm transition-colors text-[var(--color-brand-text-muted)] hover:text-[var(--color-brand-text)]"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                aria-current={activeSection === link.id ? "true" : undefined}
                 className={cn(
-                  "absolute inset-x-1 -bottom-px h-px transition-all duration-300",
+                  "relative px-3 py-1.5 text-sm transition-colors",
                   activeSection === link.id
-                    ? "bg-[var(--color-brand-amber)] opacity-100"
-                    : "bg-transparent opacity-0"
+                    ? "text-[var(--color-brand-text)]"
+                    : "text-[var(--color-brand-text-muted)] hover:text-[var(--color-brand-text)]"
                 )}
-              />
-            </button>
-          ))}
+              >
+                {link.label}
+                <span
+                  className={cn(
+                    "absolute inset-x-1 -bottom-px h-px transition-all duration-300",
+                    activeSection === link.id
+                      ? "bg-[var(--color-brand-amber)] opacity-100"
+                      : "bg-transparent opacity-0"
+                  )}
+                />
+              </button>
+            )
+          )}
         </div>
 
         <button
@@ -132,24 +147,34 @@ export function Navbar() {
             className="md:hidden border-t border-white/5 bg-[var(--color-brand-bg)]/95 backdrop-blur-xl"
           >
             <div className="px-6 py-4 space-y-1">
-              {links.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => {
-                    scrollToSection(link.id);
-                    setMobileOpen(false);
-                  }}
-                  aria-current={activeSection === link.id ? "true" : undefined}
-                  className={cn(
-                    "block w-full text-left px-3 py-2.5 text-sm rounded-lg transition-colors",
-                    activeSection === link.id
-                      ? "text-[var(--color-brand-amber)] bg-white/5"
-                      : "text-[var(--color-brand-text-muted)]"
-                  )}
-                >
-                  {link.label}
-                </button>
-              ))}
+              {links.map((link) =>
+                link.href ? (
+                  <Link
+                    key={link.id}
+                    href={link.href}
+                    className="block w-full text-left px-3 py-2.5 text-sm rounded-lg transition-colors text-[var(--color-brand-text-muted)]"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={link.id}
+                    onClick={() => {
+                      scrollToSection(link.id);
+                      setMobileOpen(false);
+                    }}
+                    aria-current={activeSection === link.id ? "true" : undefined}
+                    className={cn(
+                      "block w-full text-left px-3 py-2.5 text-sm rounded-lg transition-colors",
+                      activeSection === link.id
+                        ? "text-[var(--color-brand-amber)] bg-white/5"
+                        : "text-[var(--color-brand-text-muted)]"
+                    )}
+                  >
+                    {link.label}
+                  </button>
+                )
+              )}
             </div>
           </motion.div>
         )}

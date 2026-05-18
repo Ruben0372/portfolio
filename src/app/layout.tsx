@@ -14,20 +14,20 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ruben.dev";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Ruben Yomenou | Security Engineer",
+    default: "Ruben Yomenou | Systems Security Engineer",
     template: "%s | Ruben",
   },
   description:
-    "I build things that matter — securely. Security engineering, full-stack development, and DevSecOps.",
+    "I build secure systems from the protocol layer up. Custom TLS tunnels, production infrastructure, and the tools to operate them.",
   keywords: [
-    "security engineer",
-    "full-stack developer",
-    "DevSecOps",
+    "systems security engineer",
+    "reverse TLS tunnel",
+    "mTLS",
     "Go",
     "TypeScript",
     "React",
-    "penetration testing",
-    "infrastructure security",
+    "infrastructure engineering",
+    "self-hosted",
   ],
   authors: [{ name: "Ruben Yomenou" }],
   creator: "Ruben Yomenou",
@@ -35,15 +35,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Ruben Yomenou",
-    title: "Ruben Yomenou | Security Engineer",
+    title: "Ruben Yomenou | Systems Security Engineer",
     description:
-      "Building secure, well-engineered software — from custom TLS tunnels to enterprise platforms.",
+      "I build secure systems from the protocol layer up — custom TLS tunnels, production infrastructure, and the tools to operate them.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ruben Yomenou | Security Engineer",
+    title: "Ruben Yomenou | Systems Security Engineer",
     description:
-      "Building secure, well-engineered software — from custom TLS tunnels to enterprise platforms.",
+      "I build secure systems from the protocol layer up — custom TLS tunnels, production infrastructure, and the tools to operate them.",
   },
   robots: {
     index: true,
