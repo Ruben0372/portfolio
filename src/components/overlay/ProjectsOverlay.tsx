@@ -1,16 +1,15 @@
 'use client';
-
 import { HudPanel } from './HudPanel';
 import { projects } from '@/data/projects';
-import { useScrollStore } from '@/lib/scroll-store';
+import { useStore } from '@/lib/scroll-store';
 
 const featured = projects.filter((p) => p.featured);
 
 export function ProjectsOverlay() {
-  const startPortal = useScrollStore((s) => s.startPortal);
+  const startPortal = useStore((s) => s.startPortal);
 
   return (
-    <HudPanel enter={0.66} exit={0.79} align="left" maxWidth={560}>
+    <HudPanel roomIndex={3} align="left" maxWidth={560}>
       <h2 className="text-2xl font-bold mb-4">Projects</h2>
       <div className="space-y-3">
         {featured.map((p) => (

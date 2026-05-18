@@ -1,5 +1,4 @@
 'use client';
-
 import { HudPanel } from './HudPanel';
 import { techStack } from '@/data/projects';
 
@@ -7,7 +6,7 @@ const categories = Object.entries(techStack) as [string, string[]][];
 
 export function TechOverlay() {
   return (
-    <HudPanel enter={0.81} exit={0.89} align="right" maxWidth={480}>
+    <HudPanel roomIndex={4} align="right" maxWidth={480}>
       <h2 className="text-2xl font-bold mb-4">Tech Stack</h2>
       <div className="grid grid-cols-2 gap-3">
         {categories.map(([category, items]) => (

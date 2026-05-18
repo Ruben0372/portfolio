@@ -1,10 +1,9 @@
 'use client';
-
 import { HudPanel } from './HudPanel';
 
 export function HeroOverlay() {
   return (
-    <HudPanel enter={-0.02} exit={0.14} maxWidth={600}>
+    <HudPanel roomIndex={0} maxWidth={600}>
       <p className="text-xs font-mono tracking-[0.2em] uppercase text-amber-400 mb-4">
         Systems Security Engineer
       </p>

@@ -1,10 +1,9 @@
 'use client';
-
 import { HudPanel } from './HudPanel';
 
 export function AboutOverlay() {
   return (
-    <HudPanel enter={0.16} exit={0.29} align="left" maxWidth={440}>
+    <HudPanel roomIndex={1} align="left" maxWidth={440}>
       <h2 className="text-2xl font-bold mb-4">About</h2>
       <p className="text-sm text-white/70 leading-relaxed mb-3">
         I&apos;m Ruben — a systems security engineer who builds infrastructure from the
