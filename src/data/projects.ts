@@ -118,10 +118,10 @@ export const projects: Project[] = [
     title: "Personal Command Center",
     tagline: "Self-Hosted Dashboard with AI Work Dispatch",
     description:
-      "A self-hosted personal command center running 24/7 on an Arch Linux server, accessible via Tailscale. Consolidates projects, tasks, calendar, notes, and AI work dispatch into a single pane of glass with a Go backend and React frontend.",
+      "A self-hosted personal command center running 24/7 on an Arch Linux server, accessible via Atlax. Consolidates projects, tasks, calendar, notes, and AI work dispatch into a single pane of glass with a Go backend and React frontend.",
     featured: false,
     category: "fullstack",
-    tech: ["Go", "Chi Router", "React 19", "Vite", "SQLite (FTS5)", "Docker", "Tailscale"],
+    tech: ["Go", "Chi Router", "React 19", "Vite", "SQLite (FTS5)", "Docker", "Atlax"],
     highlights: [
       "Go backend proxying Notion, Google Calendar, and Gmail APIs",
       "Full-text search with SQLite FTS5 for instant note retrieval",
@@ -184,5 +184,5 @@ export const techStack = {
   databases: ["PostgreSQL", "SQLite", "MongoDB", "Redis"],
   security: ["WireGuard", "mTLS", "OWASP", "Snyk", "Semgrep", "fail2ban"],
   devops: ["Docker", "GitHub Actions", "Terraform", "AWS CDK", "Nginx"],
-  tools: ["Git", "Notion API", "Google APIs", "Tailscale"],
+  tools: ["Git", "Notion API", "Google APIs", "Atlax"],
 };
