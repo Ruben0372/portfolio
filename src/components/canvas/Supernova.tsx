@@ -34,8 +34,8 @@ const vertexShader = `
     vAlpha = (0.1 + 0.4 * uIntensity) * (0.5 + 0.5 * sin(t + aRandom * 6.28));
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mvPosition;
-    float dist = max(-mvPosition.z, 1.0);
-    gl_PointSize = (2.0 + 2.0 * uIntensity) * (150.0 / dist);
+    float dist = max(-mvPosition.z, 2.0);
+    gl_PointSize = (1.0 + 1.5 * uIntensity) * (20.0 / dist);
   }
 `;
 

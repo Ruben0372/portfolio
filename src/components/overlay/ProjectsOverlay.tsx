@@ -10,7 +10,7 @@ export function ProjectsOverlay() {
   const startPortal = useScrollStore((s) => s.startPortal);
 
   return (
-    <HudPanel position={[-6, 2, 18]} enter={0.66} exit={0.79} maxWidth={560}>
+    <HudPanel enter={0.66} exit={0.79} align="left" maxWidth={560}>
       <h2 className="text-2xl font-bold mb-4">Projects</h2>
       <div className="space-y-3">
         {featured.map((p) => (

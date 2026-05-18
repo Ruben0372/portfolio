@@ -21,9 +21,9 @@ export function smoothstep(edge0: number, edge1: number, x: number): number {
   return t * t * (3 - 2 * t);
 }
 
-export function panelOpacity(scroll: number, enter: number, exit: number, fade = 0.03): number {
-  const fadeIn = smoothstep(enter, enter + fade, scroll);
-  const fadeOut = 1 - smoothstep(exit - fade, exit, scroll);
+export function panelOpacity(scroll: number, enter: number, exit: number, fade = 0.015): number {
+  const fadeIn = smoothstep(enter - fade, enter + fade, scroll);
+  const fadeOut = 1 - smoothstep(exit - fade, exit + fade, scroll);
   return fadeIn * fadeOut;
 }
 

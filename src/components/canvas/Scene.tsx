@@ -21,7 +21,7 @@ export function Scene() {
     <>
       <Canvas
         camera={{ fov: 60, near: 0.1, far: 200, position: [0, 0, 2] }}
-        style={{ position: 'fixed', inset: 0 }}
+        style={{ position: 'fixed', inset: 0, zIndex: 0 }}
         gl={{ antialias: true, alpha: false }}
         dpr={[1, 1.5]}
         role="img"
@@ -34,16 +34,17 @@ export function Scene() {
             <DustField />
             <Supernova />
             <TopologyCloud />
-            <HeroOverlay />
-            <AboutOverlay />
-            <NodeOverlay />
-            <ProjectsOverlay />
-            <TechOverlay />
-            <ContactOverlay />
           </ScrollControls>
           <PostProcessing />
         </Suspense>
       </Canvas>
+      {/* Overlays are regular DOM elements positioned via CSS, synced to scroll store */}
+      <HeroOverlay />
+      <AboutOverlay />
+      <NodeOverlay />
+      <ProjectsOverlay />
+      <TechOverlay />
+      <ContactOverlay />
       <PortalTransition />
     </>
   );

@@ -4,7 +4,7 @@ import { HudPanel } from './HudPanel';
 
 export function ContactOverlay() {
   return (
-    <HudPanel position={[0, 0.5, 0.5]} enter={0.91} exit={1.02} maxWidth={400}>
+    <HudPanel enter={0.91} exit={1.02} maxWidth={400}>
       <h2 className="text-2xl font-bold mb-4">Let&apos;s Talk</h2>
       <p className="text-sm text-white/60 mb-6">
         Interested in working together? I&apos;m available for systems engineering,
