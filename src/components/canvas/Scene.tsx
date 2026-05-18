@@ -18,7 +18,7 @@ import { useStore } from '@/lib/scroll-store';
 
 function WheelHandler() {
   const lastScrollTime = useRef(0);
-  const DEBOUNCE_MS = 1200;
+  const DEBOUNCE_MS = 800;
 
   const handleWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();

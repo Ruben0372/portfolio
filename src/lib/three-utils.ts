@@ -12,8 +12,10 @@ export function clamp(v: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, v));
 }
 
-/** Smooth ease-in-out for camera transitions */
+/** Quintic ease-in-out — dramatic slow start and slow end for cinematic camera */
 export function easeInOut(t: number): number {
   const c = clamp(t, 0, 1);
-  return c * c * (3 - 2 * c);
+  return c < 0.5
+    ? 16 * c * c * c * c * c
+    : 1 - Math.pow(-2 * c + 2, 5) / 2;
 }

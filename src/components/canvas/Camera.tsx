@@ -6,8 +6,8 @@ import * as THREE from 'three';
 import { useStore, roomKeyframes } from '@/lib/scroll-store';
 import { easeInOut } from '@/lib/three-utils';
 
-const TRANSITION_SPEED = 0.04; // ~1.2s at 60fps
-const CLUSTER_FLY_SPEED = 0.03; // ~1.5s
+const TRANSITION_SPEED = 0.008; // ~2s at 60fps (125 frames)
+const CLUSTER_FLY_SPEED = 0.006; // ~2.8s at 60fps
 
 export function Camera() {
   const { camera } = useThree();
