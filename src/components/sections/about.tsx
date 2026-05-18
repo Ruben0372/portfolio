@@ -14,27 +14,27 @@ import {
 const values = [
   {
     icon: Lock,
-    title: "Security First",
+    title: "Protocol Design",
     description:
-      "Every architecture decision starts with threat modeling. Security isn't added later: it's in the foundation.",
+      "Custom wire protocols, mTLS authentication, stream multiplexing. I work at the layer most developers never touch.",
   },
   {
     icon: Server,
-    title: "Production Tested",
+    title: "Production Operations",
     description:
-      "My projects run on real servers serving real traffic. Not demos, not tutorials: deployed and operational.",
+      "Self-hosted infrastructure behind CGNAT, systemd hardening, Prometheus monitoring. My systems serve real traffic.",
   },
   {
     icon: Code,
-    title: "Clean Engineering",
+    title: "Security Engineering",
     description:
-      "Well-tested code, clear documentation, proper CI/CD. I build systems that other engineers can maintain.",
+      "Threat modeling, certificate lifecycle, per-tenant isolation. Security is structural, not an afterthought.",
   },
   {
     icon: Shield,
-    title: "Defense in Depth",
+    title: "Developer Tooling",
     description:
-      "Layered security from network to application: VPN, firewall, auth, input validation, encryption. Every layer matters.",
+      "CLI tools, deployment automation, and ergonomic interfaces. I build the tools that make operations sustainable.",
   },
 ];
 
@@ -117,22 +117,22 @@ export function About() {
             <SectionReveal delay={0.1}>
               <div className="mt-6 space-y-4 text-sm sm:text-base text-[var(--color-brand-text-muted)] leading-relaxed">
                 <p>
-                  I&apos;m a full-stack engineer and CS student who treats
-                  security as a first-class feature, not a checkbox. Every app I
-                  build, from enterprise file-sharing platforms to custom TLS
-                  tunnels, is designed to withstand real-world attacks from day
-                  one.
+                  I care about the parts of software that usually stay
+                  invisible: trust boundaries, deployment paths, failure modes,
+                  and the protocol-level decisions that determine whether a
+                  system holds up under real conditions.
                 </p>
                 <p>
-                  I wear every hat: engineering, product, security, DevOps, and
-                  infrastructure. I manage my own Arch Linux server with 7.3TB
-                  of shared storage, run production WireGuard VPNs, and build
-                  CI/CD pipelines with automated security scanning.
+                  I built Atlax — a reverse TLS tunnel with mTLS, stream
+                  multiplexing, and a custom wire protocol — because I needed my
+                  self-hosted services to be reachable without asking every user
+                  to install a VPN client. This portfolio is served through it.
                 </p>
                 <p>
-                  My approach is simple: build fast, but build it right. I bake
-                  OWASP protections, secure auth, and hardened deployments into
-                  the foundation so you can ship confidently.
+                  My work spans protocol design, production operations, security
+                  engineering, and product delivery. I run my own Arch Linux
+                  infrastructure, deploy with systemd hardening, and monitor
+                  with Prometheus and Grafana.
                 </p>
               </div>
             </SectionReveal>

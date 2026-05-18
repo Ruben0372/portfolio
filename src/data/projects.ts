@@ -28,7 +28,8 @@ export const projects: Project[] = [
       "In-memory agent registry with health checks and connection lifecycle management",
       "Designed for self-hosted deployments behind carrier-grade NAT (CGNAT)",
     ],
-    github: "https://github.com/Ruben0372/atlax",
+    github: "https://github.com/atlasshare/atlax",
+    live: "/systems-map",
     architecture: `
       RELAY (VPS)
       ├── TLS Listener (agent connections)
@@ -125,7 +126,7 @@ export const projects: Project[] = [
       "Go backend proxying Notion, Google Calendar, and Gmail APIs",
       "Full-text search with SQLite FTS5 for instant note retrieval",
       "AI dispatch system for routing work to Claude Code agents",
-      "Deployed on personal Arch Linux server with Tailscale-only access",
+      "Deployed on personal Arch Linux server, accessible via Atlax tunnel",
     ],
   },
   {

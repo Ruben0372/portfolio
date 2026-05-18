@@ -56,11 +56,12 @@ export function Contact() {
               Contact
             </span>
             <h2 className="mt-3 font-heading text-3xl sm:text-4xl font-bold tracking-tight text-[var(--color-brand-text-heading)]">
-              Let&apos;s talk about your project.
+              Let&apos;s build something secure together.
             </h2>
             <p className="mt-4 max-w-2xl text-sm sm:text-base text-[var(--color-brand-text-muted)] leading-relaxed">
-              Whether you need a security audit, a secure web application, or a
-              hardened CI/CD pipeline: I&apos;m here to help.
+              Whether you need secure infrastructure, a production-grade system,
+              or someone who understands the full stack from protocol to
+              product — I&apos;m here to help.
             </p>
           </SectionReveal>
 
