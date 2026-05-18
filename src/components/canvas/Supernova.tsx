@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { useScrollStore } from '@/lib/scroll-store';
 import { smoothstep } from '@/lib/three-utils';
 
-const PARTICLE_COUNT = 400;
+const PARTICLE_COUNT = 200;
 
 const vertexShader = `
   uniform float uTime;
@@ -31,10 +31,11 @@ const vertexShader = `
       sin(t * 1.1 + aRandom * 2.0) * 0.3
     ) * uIntensity;
 
-    vAlpha = (0.3 + 0.7 * uIntensity) * (0.5 + 0.5 * sin(t + aRandom * 6.28));
+    vAlpha = (0.1 + 0.4 * uIntensity) * (0.5 + 0.5 * sin(t + aRandom * 6.28));
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mvPosition;
-    gl_PointSize = (3.0 + 4.0 * uIntensity) * (300.0 / -mvPosition.z);
+    float dist = max(-mvPosition.z, 1.0);
+    gl_PointSize = (2.0 + 2.0 * uIntensity) * (150.0 / dist);
   }
 `;
 

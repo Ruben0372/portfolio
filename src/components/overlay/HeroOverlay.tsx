@@ -4,7 +4,7 @@ import { HudPanel } from './HudPanel';
 
 export function HeroOverlay() {
   return (
-    <HudPanel position={[0, 0.5, 3]} enter={0.00} exit={0.14} maxWidth={600}>
+    <HudPanel position={[0, 0.5, 0.5]} enter={-0.02} exit={0.14} maxWidth={600}>
       <p className="text-xs font-mono tracking-[0.2em] uppercase text-amber-400 mb-4">
         Systems Security Engineer
       </p>
