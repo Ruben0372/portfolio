@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-const variants: Record<string, Variants> = {
+const variants: Record<string, Record<string, { opacity?: number; y?: number; x?: number }>> = {
   "fade-up": {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },

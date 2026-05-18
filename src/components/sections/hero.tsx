@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { ImageBackground } from "@/components/ui/image-background";
 import { Typewriter } from "@/components/ui/typewriter";
