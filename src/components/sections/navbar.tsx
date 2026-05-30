@@ -36,7 +36,7 @@ export function Navbar() {
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="text-sm font-semibold tracking-tight">
-          ruben<span className="text-amber-400">.dev</span>
+          rubendev<span className="text-amber-400">.io</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1">
@@ -57,7 +57,7 @@ export function Navbar() {
         </div>
 
         <Link
-          href="mailto:ru93ben@icloud.com"
+          href="mailto:jy@rubendev.io"
           className="hidden md:inline-flex text-sm font-medium px-4 py-2 rounded-lg border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.06] transition-all text-amber-400"
         >
           Let&apos;s Talk

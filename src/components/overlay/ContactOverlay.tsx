@@ -10,11 +10,14 @@ export function ContactOverlay() {
         security consulting, and infrastructure projects.
       </p>
       <div className="space-y-2">
-        <a href="mailto:ru93ben@icloud.com" className="block text-sm text-amber-400 hover:text-amber-300 transition-colors">
-          ru93ben@icloud.com
+        <a href="mailto:jy@rubendev.io" className="block text-sm text-amber-400 hover:text-amber-300 transition-colors">
+          jy@rubendev.io
         </a>
         <a href="https://github.com/Ruben0372" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/50 hover:text-white/80 transition-colors">
           github.com/Ruben0372
+        </a>
+        <a href="https://www.linkedin.com/in/jean-yves-ruben-yomenou" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/50 hover:text-white/80 transition-colors">
+          linkedin.com/in/jean-yves-ruben-yomenou
         </a>
       </div>
     </HudPanel>

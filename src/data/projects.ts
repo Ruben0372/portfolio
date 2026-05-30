@@ -29,7 +29,6 @@ export const projects: Project[] = [
       "Designed for self-hosted deployments behind carrier-grade NAT (CGNAT)",
     ],
     github: "https://github.com/atlasshare/atlax",
-    live: "/systems-map",
     architecture: `
       RELAY (VPS)
       ├── TLS Listener (agent connections)

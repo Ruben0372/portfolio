@@ -18,7 +18,7 @@ export function Footer() {
             <Github className="h-4 w-4" aria-hidden="true" />
           </a>
           <a
-            href="https://linkedin.com/in/ruben"
+            href="https://www.linkedin.com/in/jean-yves-ruben-yomenou"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn profile"
@@ -27,7 +27,7 @@ export function Footer() {
             <Linkedin className="h-4 w-4" aria-hidden="true" />
           </a>
           <a
-            href="mailto:ru93ben@gmail.com"
+            href="mailto:jy@rubendev.io"
             aria-label="Send email"
             className="text-[var(--color-brand-text-muted)] hover:text-[var(--color-brand-text)] transition-colors"
           >

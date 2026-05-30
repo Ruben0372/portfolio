@@ -8,7 +8,7 @@ const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ruben.dev";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rubendev.io";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

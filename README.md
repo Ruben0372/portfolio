@@ -1,54 +1,53 @@
-# ruben.dev — Portfolio
+# rubendev.io — Portfolio
 
-Security-focused full stack developer portfolio. Built with Next.js 15, Tailwind CSS v4, and Framer Motion.
+Personal portfolio for Ruben Yomenou — systems security engineer. The homepage is an interactive **WebGL scene** (Three.js) that visualizes the architecture of **Atlax**, the custom reverse TLS tunnel that serves this site. Standard `/blog` and `/projects` pages handle long-form content.
+
+Built with **Next.js 15 (App Router)**, **React 19**, **Three.js / react-three-fiber**, **Zustand**, **Tailwind CSS v4**, and **MDX**. (No Framer Motion.)
 
 ## Quick Start
 
 ```bash
-cd portfolio
 npm install
-npm run dev
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-## Adding 21st.dev Components
-
-Once the base is running, install shadcn/ui and pull components from 21st.dev:
-
 ```bash
-npx shadcn@latest init
-# Then browse https://21st.dev and install components:
-npx shadcn@latest add <component-name>
-```
-
-## Deploy to Vercel
-
-```bash
-npm install -g vercel
-vercel
+npm run build      # production build
+npm run lint       # ESLint
 ```
 
 ## Structure
 
 ```
 src/
-  app/              Pages (App Router)
-    page.tsx        Home
-    projects/       Projects gallery
-    about/          About page
-    contact/        Contact page
+  app/                 App Router pages
+    page.tsx           Home — WebGL <Scene> (client-only) + reduced-motion fallback
+    blog/              Blog index + [slug] (MDX)
+    projects/          Projects index + [slug] (MDX)
   components/
-    sections/       Page sections (Hero, Services, etc.)
-    ui/             Reusable UI components (shadcn/21st.dev)
+    canvas/            Three.js scene graph (Scene, Camera, TopologyCloud, …)
+    overlay/           HTML HUD panels layered over the canvas
+    sections/          Navbar, footer
+    ui/                shadcn-style atoms
   data/
-    projects.ts     Project data and services
+    projects.ts        Project / services / techStack data (drives /projects)
+    topology.ts        Atlax topology nodes + edges (the 3D graph)
+    scroll-sections.ts Narrative "trace" sections, one per request hop
+    cluster-rooms.ts   Joins topology nodes → narrative for cluster rooms
   lib/
-    utils.ts        Utility functions
+    scroll-store.ts    Zustand store — room / cluster / portal navigation
+    mdx.ts             MDX read/parse helpers
+content/
+  blog/                MDX blog posts
+  projects/            MDX project case studies
 ```
 
-## Customization
+See [`CLAUDE.md`](./CLAUDE.md) for the full architecture, the WebGL navigation model, and brand/identity references.
 
-- **Colors**: Edit CSS variables in `src/app/globals.css` under `@theme`
-- **Projects**: Edit `src/data/projects.ts` to add/remove projects
-- **Content**: Each page is a standalone file in `src/app/`
+## Content
+
+Add posts/projects as MDX in `content/blog/` and `content/projects/`. Frontmatter schemas are in `src/types/mdx.ts`. The `/projects` index is driven by `src/data/projects.ts`; `/projects/[slug]` detail pages are driven by MDX files.
+
+## Deploy
+
+Set `NEXT_PUBLIC_SITE_URL` (e.g. `https://rubendev.io`) so metadata, canonical URLs, and OG tags resolve correctly.
